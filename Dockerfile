@@ -25,7 +25,7 @@ RUN rm -rf $OUTPUT_DIR && mkdir $OUTPUT_DIR \
 # Build a small image
 FROM scratch
 
-ENV SERVER_PORT=9010
+ENV SERVER_PORT=9010 \
     GIN_MODE=release
 
 EXPOSE 9010
