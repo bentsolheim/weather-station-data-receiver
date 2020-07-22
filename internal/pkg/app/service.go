@@ -1,13 +1,16 @@
 package app
 
+import "fmt"
+
 type TemperatureData struct {
 	TempCelsius float32
 }
 
-type DataPayloadService struct {
+type DataLogService struct {
 }
 
-func (s *DataPayloadService) GetMostRecentTemp() (TemperatureData, error) {
+func (s *DataLogService) RegisterData(loggerId string, sensorName string, value float32) error {
 
-	return TemperatureData{TempCelsius: 23.4}, nil
+	fmt.Printf("%s - %s - %f\n", loggerId, sensorName, value)
+	return nil
 }

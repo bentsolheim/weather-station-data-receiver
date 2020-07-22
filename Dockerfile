@@ -26,6 +26,7 @@ RUN rm -rf $OUTPUT_DIR && mkdir $OUTPUT_DIR \
 FROM scratch
 
 ENV SERVER_PORT=9010
+    GIN_MODE=release
 
 EXPOSE 9010
 
