@@ -1,9 +1,13 @@
 package app
 
-import "fmt"
+import (
+	"log"
+)
 
-type TemperatureData struct {
-	TempCelsius float32
+type SensorReading struct {
+	SensorName string
+	Value      float32
+	LocalTime  int32
 }
 
 type Debug struct {
@@ -14,17 +18,42 @@ type Debug struct {
 	MillisSinceStart int64
 }
 
-type DataLogService struct {
+func NewDataLogService() *DataLogService {
+	return &DataLogService{entries: make(map[string]map[string]SensorReading)}
 }
 
-func (s *DataLogService) RegisterData(loggerId string, sensorName string, value float32) error {
+type DataLogService struct {
+	entries      map[string]map[string]SensorReading
+	debugEntries map[string]Debug
+}
 
-	fmt.Printf("%s - %s - %f\n", loggerId, sensorName, value)
+func (s *DataLogService) RegisterData(loggerId string, reading SensorReading) error {
+
+	loggerEntries := s.entries[loggerId]
+	if loggerEntries == nil {
+		loggerEntries = make(map[string]SensorReading)
+		s.entries[loggerId] = loggerEntries
+	}
+	loggerEntries[reading.SensorName] = reading
+	log.Printf("%s - %+v\n", loggerId, reading)
 	return nil
 }
 
 func (s *DataLogService) RegisterDebug(loggerId string, debug Debug) error {
 
-	fmt.Printf("%s - %+v\n", loggerId, debug)
+	s.debugEntries[loggerId] = debug
+	log.Printf("%s - %+v\n", loggerId, debug)
 	return nil
+}
+
+func (s *DataLogService) FindLatestReadings(loggerId string) ([]SensorReading, error) {
+
+	entries := s.entries[loggerId]
+	values := make([]SensorReading, 0, len(entries))
+	if entries != nil {
+		for _, v := range entries {
+			values = append(values, v)
+		}
+	}
+	return values, nil
 }
