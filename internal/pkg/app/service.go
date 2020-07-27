@@ -19,7 +19,10 @@ type Debug struct {
 }
 
 func NewDataLogService() *DataLogService {
-	return &DataLogService{entries: make(map[string]map[string]SensorReading)}
+	return &DataLogService{
+		entries:      make(map[string]map[string]SensorReading),
+		debugEntries: make(map[string]Debug),
+	}
 }
 
 type DataLogService struct {
