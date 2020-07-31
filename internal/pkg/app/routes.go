@@ -10,6 +10,7 @@ func CreateGinEngine(dataLogController DataLogController) *gin.Engine {
 	{
 		v1.GET("/logger/:id/readings", dataLogController.GetReadings)
 		v1.POST("/logger/:id/readings", dataLogController.PostReadings)
+		v1.GET("/logger/:id/debug", dataLogController.GetDebug)
 		v1.POST("/logger/:id/debug", dataLogController.PostDebug)
 	}
 

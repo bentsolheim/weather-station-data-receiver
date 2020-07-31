@@ -17,8 +17,8 @@ func run() error {
 
 	c := app.ReadAppConfig()
 
-	consultantsController := app.DataLogController{DataLogService: app.NewDataLogService()}
+	dataLogController := app.DataLogController{DataLogService: app.NewDataLogService()}
 
-	router := app.CreateGinEngine(consultantsController)
+	router := app.CreateGinEngine(dataLogController)
 	return router.Run(fmt.Sprintf(":%s", c.ServerPort))
 }

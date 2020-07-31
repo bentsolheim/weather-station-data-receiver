@@ -42,6 +42,17 @@ func (c *DataLogController) PostReadings(ctx *gin.Context) {
 	ctx.Status(http.StatusNoContent)
 }
 
+func (c *DataLogController) GetDebug(ctx *gin.Context) {
+
+	loggerId := ctx.Param("id")
+	readings, err := c.DataLogService.FindLatestDebug(loggerId)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, rest.WrapResponse(nil, err))
+		return
+	}
+	ctx.JSON(http.StatusOK, rest.WrapResponse(readings, err))
+}
+
 func (c *DataLogController) PostDebug(ctx *gin.Context) {
 
 	var debug Debug
