@@ -10,6 +10,6 @@ type AppConfig struct {
 
 func ReadAppConfig() AppConfig {
 	return AppConfig{
-		utils.GetEnvOrDefault("SERVER_PORT", "8080"),
+		utils.GetEnvOrDefault("SERVER_PORT", "8081"),
 	}
 }
