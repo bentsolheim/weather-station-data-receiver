@@ -25,12 +25,13 @@ func CreateGinEngine(dataLogController DataLogController) *gin.Engine {
 
 func RequestLoggerMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var buf bytes.Buffer
-		tee := io.TeeReader(c.Request.Body, &buf)
-		body, _ := ioutil.ReadAll(tee)
-		c.Request.Body = ioutil.NopCloser(&buf)
-		log.Print(string(body))
-		log.Print(c.Request.Header)
+		if c.Request.Method == "POST" {
+			var buf bytes.Buffer
+			tee := io.TeeReader(c.Request.Body, &buf)
+			body, _ := ioutil.ReadAll(tee)
+			c.Request.Body = ioutil.NopCloser(&buf)
+			log.Print(string(body))
+		}
 		c.Next()
 	}
 }
