@@ -13,6 +13,7 @@ type SensorReading struct {
 	SensorName string
 	Value      float32
 	LocalTime  int32
+	UnixTime   int32
 }
 
 type Debug struct {
