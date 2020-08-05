@@ -1,12 +1,9 @@
 package app
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 )
 
 type SensorReading struct {
@@ -80,28 +77,4 @@ func (s *DataLogService) FindLatestDebug(loggerId string) (*Debug, error) {
 		return &debug, nil
 	}
 	return nil, errors.New(fmt.Sprintf("No debug info found for logger %s", loggerId))
-}
-
-type LocationForeCast20Response struct {
-	Type string
-}
-
-type MetService struct {
-	BaseUrl string
-}
-
-func (s MetService) LoadForecast(lat string, lon string) {
-	// https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=58.55288&lon=8.97572
-	res, err := http.Get(fmt.Sprintf("%s/weatherapi/locationforecast/2.0/complete?lat=%s&lon=%s", s.BaseUrl, lat, lon))
-	if err != nil {
-		log.Fatal(err)
-	}
-	bb, err := ioutil.ReadAll(res.Body)
-	res.Body.Close()
-
-	response := LocationForeCast20Response{}
-	json.Unmarshal(bb, &response)
-
-	fmt.Printf("%+v\n", response)
-	println(string(bb))
 }
